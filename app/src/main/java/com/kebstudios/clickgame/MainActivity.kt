@@ -171,8 +171,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun winnerButtonClick() {
-        wait_orb.visibility = View.VISIBLE
-        winners_list.visibility = View.GONE
+        if (winners_menu_container.visibility == View.GONE) {
+            wait_orb.visibility = View.VISIBLE
+            winners_list.visibility = View.GONE
+        }
 
         AsyncTask.execute {
             val result = API.sendGetWinnersRequest()
@@ -203,7 +205,6 @@ class MainActivity : AppCompatActivity() {
                 .translationXBy(Utils.convertDpToPx(-250f))
                 .withStartAction {
                     winners_menu_container.visibility = View.VISIBLE
-
                     winner_button.clearAnimation()
                     winner_button
                         .animate()
