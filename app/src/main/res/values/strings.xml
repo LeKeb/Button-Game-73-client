@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">ClickGame</string>
+    <string name="username_missing">You need to enter a username to play</string>
+    <string name="congratulation_string">Congratulations!\nYou won the * Prize!</string>
+    <string name="prize_3">Big</string>
+    <string name="prize_2">Medium</string>
+    <string name="prize_1">Small</string>
+    <string name="no_win">You did not win anything this time.</string>
+    <string name="next_win">\n\nNext win in: * clicks.</string>
+</resources>
