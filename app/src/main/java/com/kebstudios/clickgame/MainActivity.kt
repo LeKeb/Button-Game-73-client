@@ -5,11 +5,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.media.AudioManager
 import android.media.MediaPlayer
-import android.os.AsyncTask
+import android.os.*
 import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
-import android.os.VibrationEffect
-import android.os.Vibrator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.MotionEvent
@@ -102,21 +99,30 @@ class MainActivity : AppCompatActivity() {
                 500 -> {
                     shootParticles(R.drawable.gold_confetti, 1000)
                     playFanfare()
-                    vibrate(VibrationEffect.createWaveform(longArrayOf(0, 75, 50, 75, 50, 75, 50, 300), -1))
+                    if (Build.VERSION.SDK_INT >= 26)
+                        vibrate(VibrationEffect.createWaveform(longArrayOf(0, 75, 50, 75, 50, 75, 50, 300), -1))
+                    else
+                        vibrate(longArrayOf(0, 75, 50, 75, 50, 75, 50, 300))
                     resources.getString(R.string.congratulation_string)
                         .replace("*", resources.getString(R.string.prize_3))
                 }
                 200 -> {
                     shootParticles(R.drawable.silver_confetti, 300)
                     playFanfare()
-                    vibrate(VibrationEffect.createWaveform(longArrayOf(0, 75, 50, 300), -1))
+                    if (Build.VERSION.SDK_INT >= 26)
+                        vibrate(VibrationEffect.createWaveform(longArrayOf(0, 75, 50, 300), -1))
+                    else
+                        vibrate(longArrayOf(0, 75, 50, 300))
                     resources.getString(R.string.congratulation_string)
                         .replace("*", resources.getString(R.string.prize_2))
                 }
                 100 -> {
                     shootParticles(R.drawable.bronze_confetti, 50)
                     playFanfare()
-                    vibrate(VibrationEffect.createOneShot(150, VibrationEffect.DEFAULT_AMPLITUDE))
+                    if (Build.VERSION.SDK_INT >= 26)
+                        vibrate(VibrationEffect.createOneShot(150, VibrationEffect.DEFAULT_AMPLITUDE))
+                    else
+                        vibrate(longArrayOf(0, 150))
                     resources.getString(R.string.congratulation_string)
                         .replace("*", resources.getString(R.string.prize_1))
                 }
@@ -167,7 +173,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun vibrate(effect: VibrationEffect) {
-        mVibrator.vibrate(effect)
+        if (Build.VERSION.SDK_INT >= 26)
+            mVibrator.vibrate(effect)
+    }
+
+    private fun vibrate(pattern: LongArray) {
+        mVibrator.vibrate(pattern, -1)
     }
 
     private fun winnerButtonClick() {
